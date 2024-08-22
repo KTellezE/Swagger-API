@@ -13,8 +13,24 @@ const swaggerDefinition = {
     {
       url: 'http://localhost:3000',
       description: 'QA Server Test',
+    },
+    {
+      url: 'http://localhost:4000',
+      description: 'Pre-Production Server Test',
     }
   ],
+  components:{
+    securitySchemes: {
+      bearerAuth:{
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT'
+      }
+    }
+  },
+  security:
+    [{  bearerAuth: [] }]
+  
 };
 
 const options = {
