@@ -251,38 +251,7 @@ app.post('/items',authenticateToken, (req, res) => {
  *     responses:
  *       200:
  *         description: A single item
- *       201:
- *         description: Student created successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                 firstName:
- *                   type: string
- *                 lastName:
- *                   type: string
- *                 age:
- *                   type: integer
- *                 email:
- *                   type: string
- *                 enrollmentNumber:
- *                   type: string
- *                 courses:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       courseId:
- *                         type: integer
- *                       courseName:
- *                         type: string
- *                       grade:
- *                         type: string
- *                 status:
- *                   type: string
+ * 
  */
 app.get('/items/:id',authenticateToken, (req, res) => {
   const id = parseInt(req.params.id);
@@ -368,7 +337,7 @@ app.put('/items/:id',authenticateToken, (req, res) => {
   }
   if(student)
   {
-    student = new_student;
+    students[id-1] = new_student
     res.status(200).json({ 
       message: `Estudiante actualizado con id ${id}`,
       estudiante: student
