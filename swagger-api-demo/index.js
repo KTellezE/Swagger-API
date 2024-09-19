@@ -27,7 +27,7 @@ const users =
   }
 ]
 
-const students = [
+var students = [
   {
     "id": 1,
     "firstName": "Jose",
@@ -322,28 +322,28 @@ app.get('/items/:id',authenticateToken, (req, res) => {
  *       200:
  *         description: Item updated successfully
  */
-app.put('/items/:id',authenticateToken, (req, res) => {
-  const id = parseInt(req.params.id);
-  const student = students.find(student => student.id === id)
-  const {firstName,lastName,age,email,enrollmentNumber,courses} = req.body;
-  const new_student = {
-    id: students.length + 1,
-    firstName,
-    lastName,
-    age,
-    email, 
-    enrollmentNumber,
-    courses
-  }
-  if(student)
-  {
-    students[id-1] = new_student
+app.put('/items/:id', authenticateToken, (req, res) => {
+  const id = parseInt(req.params.id); 
+  const { firstName, lastName, age, email, enrollmentNumber, courses, status } = req.body
+  const studentIndex = students.findIndex(student => student.id === id);
+
+  if (studentIndex !== -1) {
+    students[studentIndex] = {
+      id: id,  
+      firstName,
+      lastName,
+      age,
+      email,
+      enrollmentNumber,
+      courses,
+      status 
+    };
+
     res.status(200).json({ 
       message: `Estudiante actualizado con id ${id}`,
-      estudiante: student
+      estudiante: students[studentIndex]
     });
-  }else
-  {
+  } else {
     res.status(404).json({ 
       message: `Estudiante no encontrado con id ${id}`,
     });
@@ -368,8 +368,20 @@ app.put('/items/:id',authenticateToken, (req, res) => {
  *       200:
  *         description: Item deleted successfully
  */
-app.delete('/items/:id',authenticateToken, (req, res) => {
-  res.status(200).json({ message: `DELETE request - Delete item with ID ${req.params.id}` });
+app.delete('/items/:id', authenticateToken, (req, res) => {
+  const id = parseInt(req.params.id); 
+  const studentIndex = students.findIndex(student => student.id === id);
+
+  if (studentIndex !== -1) {
+    students.splice(studentIndex, 1);
+    res.status(200).json({ 
+      message: `Estudiante con id ${id} ha sido eliminado`
+    });
+  } else {
+    res.status(404).json({ 
+      message: `Estudiante no encontrado con id ${id}`,
+    });
+  }
 });
 
 // Setup Swagger
